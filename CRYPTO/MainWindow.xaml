@@ -1,0 +1,164 @@
+﻿<Window x:Class="CRYPTO.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CRYPTO"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="CRYPTO" Height="999.187" Width="865.006" Background="#242F3D"
+        >
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#242F3D"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property ="Template" Value="{DynamicResource ButtonBaseControlTemplateNEW}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="#17212B"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+        <Style TargetType="ListBox">
+            <Setter Property="Background" Value="#242F3D"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="#242F3D"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#202B36"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="95*"/>
+            <RowDefinition Height="15"/>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Background="#17212B" BorderBrush="Transparent">
+            <TabItem Header="CYPHERS">
+                <Grid Background="#17212B">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0*"/>
+                        <ColumnDefinition Width="35*"/>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="35*"/>
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0" Grid.ColumnSpan="2">
+                        <Label HorizontalAlignment="Center" FontWeight="Bold" Content="PlainText" DockPanel.Dock="Top" Foreground="White"/>
+                        <TextBox Name="tbPlainText" TextWrapping="Wrap" HorizontalAlignment="Stretch"  Margin="13,0,13,13" VerticalAlignment="Stretch">
+                        </TextBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="3">
+                        <Label HorizontalAlignment="Center" FontWeight="Bold" Content="CipherText" DockPanel.Dock="Top" Foreground="White"/>
+                        <TextBox Name="tbCipherText" TextWrapping="Wrap" HorizontalAlignment="Stretch"  Margin="13,0,13,13" VerticalAlignment="Stretch">
+                        </TextBox>
+                    </DockPanel>
+                    <DockPanel Grid.Column="2" Margin="0, 15" LastChildFill="False">
+                        <!--FILE PANEL-->
+                        <DockPanel DockPanel.Dock="Top">
+                            <Button Name="btnAddFiles" DockPanel.Dock="Top" Content="Add Files" HorizontalAlignment="Stretch" Margin="0,13,0,0" Click="btnAddFilesClick"/>
+                            <ListBox Name="lbFiles" DockPanel.Dock="Top" Height="171" Margin="0,13,0,0" SelectedIndex="0"></ListBox>
+                            <Button Name="btnLoad" DockPanel.Dock="Top" Content="&lt;--- Load PlainText" HorizontalAlignment="Stretch" Margin="0,13,0,0" Click="btnLoadPlainTextClick"/>
+                            <Button DockPanel.Dock="Top" Content="Load CipherText ---&gt;" HorizontalAlignment="Stretch" Margin="0,13,0,0" Click="btnLoadCipherTextClick"/>
+                            <!--Separator DockPanel.Dock="Top" Margin="0, 13"/-->
+                        </DockPanel>
+                        <!--MODE-->
+                        <DockPanel DockPanel.Dock="Top" >
+                            <Label DockPanel.Dock="Top" Content="MODE:"/>
+                            <ComboBox Name="cbMode" SelectedIndex="7" DropDownClosed="cbClosed" SelectionChanged="cbModeSelectionChanged" Template="{DynamicResource ComboBoxControlTemplate1}" Foreground="White">
+                                <ComboBoxItem Content="Rail-Fence (ENG)"></ComboBoxItem>
+                                <ComboBoxItem Content="Column (ENG)"></ComboBoxItem>
+                                <ComboBoxItem Content="Vigener Straight (RUS)"></ComboBoxItem>
+                                <ComboBoxItem Content="Kasiski Test (RUS)"></ComboBoxItem>
+                                <ComboBoxItem Content="LFSR₁ (x²⁶+x⁸+x⁷+x¹+1)"></ComboBoxItem>
+                                <ComboBoxItem Content="RC4"></ComboBoxItem>
+                                <ComboBoxItem Content="Elgamal"></ComboBoxItem>
+                                <ComboBoxItem Content="RSA-DS"></ComboBoxItem>
+                            </ComboBox>
+                        </DockPanel>
+                        <!-- SINGLE KEY PANEL-->
+                        <DockPanel Name="pnlSingleKey" DockPanel.Dock="Top" Visibility="Collapsed">
+                            <DockPanel DockPanel.Dock="Top" >
+                                <Label DockPanel.Dock="Top" Content="KEY:"/>
+                                <TextBox Name="tbKey" Height="19" TextChanged="tbKeyTextChanged"/>
+                            </DockPanel>
+                        </DockPanel>
+                        <!-- KASISKI PANEL-->
+                        <DockPanel Name="pnlKasiskiTest" DockPanel.Dock="Top" Visibility="Collapsed">
+                            <!--Separator DockPanel.Dock="Top" Margin="0, 13, 0, 0"/-->
+                            <Button Name="btnAnalyse"  DockPanel.Dock="Top" Content="ANALYSE" HorizontalAlignment="Stretch" Margin="0,13,0,0" Click="btnKasiskiAnalyseClick"/>
+                            <ListBox Name="lbKeys" DockPanel.Dock="Top" Height="145" Margin="0,13,0,0" SelectedIndex="0" Visibility="Visible" SelectionChanged="lbKasiskiKeysSelected"/>
+                        </DockPanel>
+                        <!-- ELGAMAL PANEL-->
+                        <DockPanel Name="pnlElgamal" DockPanel.Dock="Top" Visibility="Collapsed">
+                            <DockPanel DockPanel.Dock="Top" >
+                                <Label DockPanel.Dock="Top" Content="p:"/>
+                                <TextBox Name="tbP" Height="19" TextChanged="tbKeyTextChanged" Text="1907"/>
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Top" >
+                                <Label DockPanel.Dock="Top" Content="x:"/>
+                                <TextBox Name="tbX" Height="19" TextChanged="tbKeyTextChanged" Text="117"/>
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Top" >
+                                <Label DockPanel.Dock="Top" Content="k:"/>
+                                <TextBox Name="tbK" Height="19" TextChanged="tbKeyTextChanged" Text="33"/>
+                            </DockPanel>
+                        </DockPanel>
+                        <DockPanel Name="pnlRSA_DS" DockPanel.Dock="Top" Visibility="Visible">
+                            <DockPanel DockPanel.Dock="Top" >
+                                <Label DockPanel.Dock="Top" Content="p:"/>
+                                <TextBox Name="tbRSA_P" Height="19" TextChanged="tbKeyTextChanged" Text="35742549198872617291353508656626642567"/>
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Top" >
+                                <Label DockPanel.Dock="Top" Content="q:"/>
+                                <TextBox Name="tbRSA_Q" Height="19" TextChanged="tbKeyTextChanged" Text="359334085968622831041960188598043661065388726959079837"/>
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Top" >
+                                <Label DockPanel.Dock="Top" Content="d:"/>
+                                <TextBox Name="tbRSA_K" Height="19" TextChanged="tbKeyTextChanged" Text="27644437"/>
+                            </DockPanel>
+                            
+                        </DockPanel>
+                        <DockPanel Name="pnlEncryptDecrypt" DockPanel.Dock="Top">
+                            <DockPanel Name="pnlLFSRKey" DockPanel.Dock="Top" Visibility="Collapsed">
+                                <Label DockPanel.Dock="Top" Content="GENERATED KEY:"/>
+                                <TextBox Name="tbLFSRKey" Height="19"/>
+                            </DockPanel>
+                            <Button Name="btnEncrypt"  DockPanel.Dock="Top" Content="Encrypt --->" HorizontalAlignment="Stretch" Margin="0,13,0,0" Click="btnEncryptClick"/>
+                            <Button Name="btnDecrypt" DockPanel.Dock="Top" Content="&lt;--- Decrypt" HorizontalAlignment="Stretch" Margin="0,13,0,0" Click="btnDecryptClick"/>
+                        </DockPanel>
+                        <DockPanel Name="pnlRSA_DS_E_HASH" DockPanel.Dock="Top">
+                            <DockPanel DockPanel.Dock="Top" >
+                                <Label DockPanel.Dock="Top" Content="r:"/>
+                                <TextBox Name="tbRSA_R" Height="19" IsReadOnly="False" TextChanged="tbKeyTextChanged" Text=""/>
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Top" >
+                                <Label DockPanel.Dock="Top" Content="e:"/>
+                                <TextBox Name="tbRSA_E" Height="19" IsReadOnly="False" TextChanged="tbKeyTextChanged" Text=""/>
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Top" Visibility="Visible">
+                                <Label DockPanel.Dock="Top" Content="SHA1:"/>
+                                <TextBox Name="tbRSA_HASH" Height="19" IsReadOnly="True" TextChanged="tbKeyTextChanged" Text=""/>
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Top" Visibility="Visible">
+                                <Label DockPanel.Dock="Top" Content="SIGNATURE:"/>
+                                <TextBox Name="tbRSA_SIGN" Height="19" IsReadOnly="True" TextChanged="tbKeyTextChanged" Text=""/>
+                            </DockPanel>
+                        </DockPanel>
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <TextBlock Background="#17212B" Grid.Row="1" Grid.ColumnSpan="2"/>
+    </Grid>
+</Window>
